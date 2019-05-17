@@ -3,6 +3,7 @@
 <head>
 <title>VR MONOCLE DEMO</title>
 <meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://dorukeker.github.io/gyronorm_samples/demo/gyronorm.complete.min.js"></script>
 </head>
@@ -10,6 +11,7 @@
 <body onload="init_gn()" style="height: 100vh; width: 100vw; margin: 0px; overflow: hidden;">
 
 <canvas id="canvas" style="height: 100vh; width: 100vw;"></canvas>
+<div id="feedback" style="margin:auto; position:fixed; color:white;top:30px; left:80px; width: 300px;">HÄH</div>
 
 <script>
   function draw(x, y) {
@@ -26,27 +28,6 @@
     }, false);
     img.src = "panorama.jpg";
   }
-   /*
-  var x = 0;
-  var y = 0;
-  draw(x, y);
-  window.onkeydown = function(event) {
-    switch(event.code) {
-      case "ArrowDown":
-        y -= 10;
-        break;
-      case "ArrowUp":
-        y += 10;
-        break;
-      case "ArrowRight":
-        x += 10;
-        break;
-      case "ArrowLeft":
-        x -= 10;
-        break;
-    }
-    draw(x, y);
-  }*/
 </script>
 <script type="text/javascript">
     var gn;
@@ -60,7 +41,7 @@
       }).catch(function(e){
         console.log(e);
       });
-        draw(0, 0);
+      draw(0, 0);
     }
 
     function start_gn() {
@@ -70,12 +51,16 @@
     var x = 0;
     var y = 100;
 
+    var feedback = document.getElementById("feedback");
     function gnCallBack(data) {
         x *= 0.99;
         x += -100 * data.dm.x;
         y *= 0.5;
-        y += 0.5 * -(100 + 100 * data.dm.gz);
+        y += 0.5 * -(200 + 100 * data.dm.gz);
         draw(x, y);
+        feedback.innerHTML = data.dm.alpha + ", " + data.do.alpha;
+        feedback.innerHTML += " X " + data.dm.beta + ", " + data.do.beta;
+        feedback.innerHTML += " X " + data.dm.gamma + ", " + data.do.gamma;
     }
 
   </script>
