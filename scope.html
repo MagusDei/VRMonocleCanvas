@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>VR MONOCLE DEMO</title>
+<meta charset="utf-8"/>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://dorukeker.github.io/gyronorm_samples/demo/gyronorm.complete.min.js"></script>
+</head>
+
+<body onload="init_gn()" style="height: 100vh; width: 100vw; margin: 0px; overflow: hidden;">
+
+<canvas id="canvas" style="height: 100vh; width: 100vw;"></canvas>
+
+<script>
+  function draw(x, y) {
+    var ctx = document.getElementById('canvas').getContext('2d');
+    var img = new Image();
+    img.addEventListener('load', function() {
+      // Execute the drawImage statements here
+      // Tile the image so you can't go out of boundaries as easily
+      for (var i = -1; i <= 1; i++) {
+        for (var j = -1; j <= 1; j++) {
+          ctx.drawImage(img, ((i*img.width)+(-img.width-x)/2), ((j*img.width)+(-img.height-y)/2));
+        }
+      }
+    }, false);
+    img.src = "panorama.jpg";
+  }
+   /*
+  var x = 0;
+  var y = 0;
+  draw(x, y);
+  window.onkeydown = function(event) {
+    switch(event.code) {
+      case "ArrowDown":
+        y -= 10;
+        break;
+      case "ArrowUp":
+        y += 10;
+        break;
+      case "ArrowRight":
+        x += 10;
+        break;
+      case "ArrowLeft":
+        x -= 10;
+        break;
+    }
+    draw(x, y);
+  }*/
+</script>
+<script type="text/javascript">
+    var gn;
+
+    function init_gn() {
+
+      gn = new GyroNorm();
+
+      gn.init().then(function() {
+        start_gn();
+      }).catch(function(e){
+        console.log(e);
+      });
+        draw(0, 0);
+    }
+
+    function start_gn() {
+      gn.start(gnCallBack);
+    }
+
+    var x = 0;
+    var y = 100;
+
+    function gnCallBack(data) {
+        x *= 0.99;
+        x += -100 * data.dm.x;
+        y *= 0.5;
+        y += 0.5 * -(100 + 100 * data.dm.gz);
+        draw(x, y);
+    }
+
+  </script>
+
+</body>
+
+</html>
