@@ -26,7 +26,7 @@
         }
       }
     }, false);
-    img.src = "panorama.jpg";
+    img.src = "panorama4.jpg";
   }
 </script>
 <script type="text/javascript">
@@ -54,7 +54,7 @@
     var feedback = document.getElementById("feedback");
     function gnCallBack(data) {
         x *= 0.99;
-        x += -100 * data.dm.x;
+        x += 100 * data.dm.x;
         y *= 0.5;
         y += 0.5 * -(200 + 100 * data.dm.gz);
         draw(x, y);
