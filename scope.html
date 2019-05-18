@@ -17,11 +17,11 @@
 
     var ctx = document.getElementById('canvas').getContext('2d');
     var img = new Image();
-    img.src = "panorama5.jpg";
+    img.src = "panorama6.jpg";
     function draw(x, y) {
       // Tile the image so you can't go out of boundaries as easily
       for (var i = -1; i <= 1; i++) {
-        ctx.drawImage(img, ((i*img.width)+(-img.width-x)/2), (-img.height-y)/2);
+        ctx.drawImage(img, -((i*img.width)+(-img.width-x)/2), -(-img.height-y)/2, 200, 200, 0, 0, 400, 200);
       }
     }
 
@@ -49,7 +49,7 @@
     var feedback = document.getElementById("feedback");
     function gnCallBack(data) {
         x *= 0.99;
-        x += -100 * data.dm.x;
+        x += 20*data.dm.gx;
         y *= 0.5;
         y += 0.5 * -(200 + 100 * data.dm.gz);
         draw(x, y);
